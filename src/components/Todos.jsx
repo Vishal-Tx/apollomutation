@@ -10,6 +10,15 @@ export const GET_TODOS = gql`
   }
 `;
 
+const UPDATE_TODO = gql`
+  mutation UpdateTodo($id: String!, $type: String!) {
+    updateTodo(id: $id, type: $type) {
+      id
+      type
+    }
+  }
+`;
+
 const Todos = () => {
   const { loading, error, data } = useQuery(GET_TODOS);
 
