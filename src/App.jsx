@@ -5,8 +5,8 @@ import {
   ApolloProvider,
   gql,
 } from "@apollo/client";
-import AddInput from "./components/AddInput";
 import Todos from "./components/Todos";
+import AddTodo from "./components/AddTodo";
 
 const client = new ApolloClient({
   uri: "https://sxewr.sse.codesandbox.io/",
@@ -18,7 +18,7 @@ const App = () => {
     <>
       <ApolloProvider client={client}>
         <h1>Mutation ToDos</h1>
-        <AddInput />
+        <AddTodo />
         <Todos />
       </ApolloProvider>
     </>
