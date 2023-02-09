@@ -28,6 +28,7 @@ const Todos = () => {
   if (error) return <p>Error</p>;
 
   return data.todos.map(({ id, type }) => {
+    let input;
     return (
       <div key={id}>
         <p>{type}</p>
