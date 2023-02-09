@@ -35,6 +35,15 @@ const AddTodo = () => {
           e.preventDefault();
           addTodo({
             variables: { type: input.value },
+            optimisticResponse: {
+              addTodo: {
+                id: "temp-id",
+
+                __typename: "Todo",
+
+                type: input.value, // Obtained from user input
+              },
+            },
           });
           input.value = "";
         }}
