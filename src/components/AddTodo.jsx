@@ -13,7 +13,21 @@ const ADD_TODO = gql`
 
 const AddTodo = () => {
   let input;
-  const [addTodo, { error }] = useMutation(ADD_TODO, {});
+  const [addTodo, { error }] = useMutation(ADD_TODO, {
+    update(cache, { data: { addTodo } }) {
+      console.log("data", addTodo);
+      const { todos } = cache.readQuery({
+        query: GET_TODOS,
+      });
+
+      cache.writeQuery({
+        query: GET_TODOS,
+        data: {
+          todos: [addTodo, ...todos],
+        },
+      });
+    },
+  });
   return (
     <div>
       <form
