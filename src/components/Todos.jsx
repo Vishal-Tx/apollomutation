@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import React from "react";
 
 export const GET_TODOS = gql`
@@ -21,6 +21,8 @@ const UPDATE_TODO = gql`
 
 const Todos = () => {
   const { loading, error, data } = useQuery(GET_TODOS);
+  const [updateTodo, { loading: mutationLoading, error: mutationError }] =
+    useMutation(UPDATE_TODO);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error</p>;
@@ -29,6 +31,32 @@ const Todos = () => {
     return (
       <div key={id}>
         <p>{type}</p>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            updateTodo({
+              variables: { id, type: input.value },
+              optimisticResponse: {
+                updateTodo: {
+                  id: id,
+                  __typename: "Todo",
+                  type: input.value,
+                },
+              },
+            });
+
+            input.value = "";
+          }}
+        >
+          <input
+            ref={(node) => {
+              input = node;
+            }}
+          />
+          <button type="submit">Update Todo</button>
+        </form>
+        {mutationLoading && <p>Loading...</p>}
+        {mutationError && <p>Error. Please try again</p>}
       </div>
     );
   });
